@@ -2,11 +2,15 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.kwettertimgoes</groupId>
-  <artifactId>kwetter</artifactId>
+  <artifactId>DPI6</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>lekker opgezet</name>
   <url>http://maven.apache.org</url>
+
+  <modules>
+    <module>application forms</module>
+  </modules>
 
   <dependencies>
     <dependency>
