@@ -36,21 +36,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LoanBrokerAppGateway.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="LoanBrokerAppGateway.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/application forms/loan broker/gateway/LoanBrokerAppGateway.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="33" lean-forward="false" selection-start-line="2" selection-start-column="33" selection-end-line="2" selection-end-column="33" />
-              <folding />
+            <state relative-caret-position="323">
+              <caret line="19" column="4" lean-forward="true" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="4" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LoanSerializer.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="LoanSerializer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application forms/loan broker/gateway/LoanSerializer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="27" column="5" lean-forward="true" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
+            <state relative-caret-position="408">
+              <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#197#198#0" expanded="true" />
@@ -175,6 +177,7 @@
         <option value="$PROJECT_DIR$/mix/model/bank/BankInterestReply.java" />
         <option value="$PROJECT_DIR$/mix/model/bank/BankInterestRequest.java" />
         <option value="$PROJECT_DIR$/application forms/loan broker/gateway/LoanSerializer.java" />
+        <option value="$PROJECT_DIR$/application forms/loan broker/gateway/LoanBrokerAppGateway.java" />
       </list>
     </option>
   </component>
@@ -499,12 +502,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1522581310043</updated>
-      <workItem from="1522581311283" duration="2896000" />
+      <workItem from="1522581311283" duration="3205000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2896000" />
+    <option name="totallyTimeSpent" value="3205000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -596,14 +599,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application forms/loan broker/gateway/LoanBrokerAppGateway.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="33" lean-forward="false" selection-start-line="2" selection-start-column="33" selection-end-line="2" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
@@ -672,8 +667,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/application forms/loan broker/gateway/LoanSerializer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="5" lean-forward="true" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
+        <state relative-caret-position="408">
+          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#197#198#0" expanded="true" />
@@ -686,6 +681,16 @@
             <element signature="e#556#557#0" expanded="true" />
             <element signature="e#607#608#0" expanded="true" />
             <element signature="e#670#671#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application forms/loan broker/gateway/LoanBrokerAppGateway.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="4" lean-forward="true" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="4" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
