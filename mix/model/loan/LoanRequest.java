@@ -1,5 +1,6 @@
 package model.loan;
 
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -11,8 +12,13 @@ import java.util.Objects;
  */
 public class LoanRequest implements Serializable {
 
+    @XmlTransient
     private int ssn; // unique client number.
+
+    @XmlTransient
     private int amount; // the ammount to borrow
+
+    @XmlTransient
     private int time; // the time-span of the loan
 
     public LoanRequest() {

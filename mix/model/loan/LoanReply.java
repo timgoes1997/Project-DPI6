@@ -1,5 +1,6 @@
 package model.loan;
 
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 
 /**
@@ -9,8 +10,11 @@ import java.io.Serializable;
  */
 public class LoanReply implements Serializable {
 
-        private double interest; // the interest that the bank offers
-        private String bankID; // the unique quote identification
+    @XmlTransient
+    private double interest; // the interest that the bank offers
+
+    @XmlTransient
+    private String bankID; // the unique quote identification
 
     public LoanReply() {
         super();

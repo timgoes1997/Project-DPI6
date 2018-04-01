@@ -1,5 +1,6 @@
 package model.bank;
 
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -10,7 +11,10 @@ import java.util.Objects;
  */
 public class BankInterestRequest implements Serializable {
 
+    @XmlTransient
     private int amount; // the requested loan amount
+
+    @XmlTransient
     private int time; // the requested loan period
 
     public BankInterestRequest() {

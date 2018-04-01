@@ -16,5 +16,6 @@
     <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
     <orderEntry type="library" name="Maven: javax.persistence:javax.persistence-api:2.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.activemq:activemq-all:5.15.3" level="project" />
+    <orderEntry type="library" name="Maven: com.owlike:genson:1.4" level="project" />
   </component>
 </module>
