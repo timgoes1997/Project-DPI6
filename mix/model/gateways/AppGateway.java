@@ -15,6 +15,7 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 import javax.naming.NamingException;
+import java.util.Enumeration;
 
 public class AppGateway<REQUEST, REPLY> {
     private MessageSenderGateway sender;
@@ -35,8 +36,20 @@ public class AppGateway<REQUEST, REPLY> {
         this.receiverGateway.setListener(new MessageListener() {
             @Override
             public void onMessage(Message message) {
+                int messageId = -1;
                 try {
-                    onReplyArrived(serializer.requestReplyFromString(((TextMessage) message).getText()));
+                    if(message.propertyExists("aggregationID")){
+                        messageId = message.getIntProperty("aggregationID");
+                    }
+                } catch (JMSException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    RequestReply rr = serializer.requestReplyFromString(((TextMessage) message).getText());
+                    if(messageId >= 0){
+                        rr.setAggregationID(messageId);
+                    }
+                    onReplyArrived(rr);
                 } catch (JMSException e) {
                     e.printStackTrace();
                 }
@@ -46,6 +59,12 @@ public class AppGateway<REQUEST, REPLY> {
 
     public void send(RequestReply rr) throws JMSException {
         sender.send(sender.createTextMessage(serializer.requestReplyToString(rr)));
+    }
+
+    public void send(RequestReply rr, int aggregationID) throws JMSException {
+        Message msg = sender.createTextMessage(serializer.requestReplyToString(rr));
+        msg.setIntProperty("aggregationID", aggregationID);
+        sender.send(msg);
     }
 
     public void onReplyArrived(RequestReply rr) throws JMSException {

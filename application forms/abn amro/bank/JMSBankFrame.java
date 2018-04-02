@@ -43,23 +43,37 @@ public class JMSBankFrame extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					JMSBankFrame frame = new JMSBankFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		EventQueue.invokeLater(() -> {
+            try {
+                JMSBankFrame frame = new JMSBankFrame(Bank.ABN_AMRO);
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        EventQueue.invokeLater(() -> {
+            try {
+                JMSBankFrame frame = new JMSBankFrame(Bank.ING);
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        EventQueue.invokeLater(() -> {
+            try {
+                JMSBankFrame frame = new JMSBankFrame(Bank.RABO_BANK);
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 	}
 
 	/**
 	 * Create the frame.
 	 */
-	public JMSBankFrame() {
-		setTitle("JMS Bank - ABN AMRO");
+	public JMSBankFrame(Bank bank) {
+		setTitle("JMS Bank - " + bank.toString());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -131,7 +145,7 @@ public class JMSBankFrame extends JFrame {
 				public void receivedAction(RequestReply requestReply) throws JMSException {
 					listModel.addElement(requestReply);
 				}
-			}, "bankClientSend", "bankClientReceive", BankInterestRequest.class, BankInterestReply.class);
+			}, bank.toString()+ "BankClientSend", bank.toString() + "BankClientReceive", BankInterestRequest.class, BankInterestReply.class);
 		} catch (JMSException | NamingException e) {
 			e.printStackTrace();
 		}

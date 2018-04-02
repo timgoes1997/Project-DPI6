@@ -13,10 +13,17 @@ import java.io.Serializable;
  * @param <REPLY>
  */
 public class RequestReply<REQUEST,REPLY> implements Serializable {
-	
+
+	private int aggregationID;
 	private REQUEST request;
 	private REPLY reply;
-	
+
+	public RequestReply(REQUEST request,  REPLY reply, int aggregationID) {
+		setRequest(request);
+		setReply(reply);
+		this.aggregationID = aggregationID;
+	}
+
 	public RequestReply(REQUEST request,  REPLY reply) {
 		setRequest(request);
 		setReply(reply);
@@ -42,5 +49,12 @@ public class RequestReply<REQUEST,REPLY> implements Serializable {
 	public String toString() {
 	   return request.toString() + "  --->  " + ((reply!=null)?reply.toString():"waiting for reply...");
 	}
-	
+
+	public int getAggregationID() {
+		return aggregationID;
+	}
+
+	public void setAggregationID(int aggregationID) {
+		this.aggregationID = aggregationID;
+	}
 }

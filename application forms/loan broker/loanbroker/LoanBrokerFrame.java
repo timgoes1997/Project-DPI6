@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+import loanbroker.recipientList.LoanBrokerRecipientList;
 import messaging.requestreply.RequestReply;
 import model.bank.*;
 import model.gateways.AppGateway;
@@ -36,7 +37,7 @@ public class LoanBrokerFrame extends JFrame {
     private DefaultListModel<JListLine> listModel = new DefaultListModel<JListLine>();
     private JList<JListLine> list;
     private AppGateway<LoanRequest, LoanReply> loanClientGateWay;
-    private AppGateway<BankInterestRequest, BankInterestReply> bankClientGateWay;
+    private LoanBrokerRecipientList bankRecipientList;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -90,11 +91,11 @@ public class LoanBrokerFrame extends JFrame {
                     BankInterestRequest bir = new BankInterestRequest(req.getAmount(), req.getTime());
                     add(req, bir);
                     RequestReply rr = new RequestReply<BankInterestRequest,BankInterestReply>(bir, null);
-                    bankClientGateWay.send(rr);
+                    bankRecipientList.send(rr);
                 }
             }, "loanClientReceive", "loanClientSend", LoanRequest.class, LoanReply.class);
 
-            bankClientGateWay = new AppGateway<BankInterestRequest, BankInterestReply>(new ClientInterface() {
+            bankRecipientList = new LoanBrokerRecipientList(new ClientInterface() {
                 @Override
                 public void receivedAction(RequestReply requestReply) throws JMSException {
                     RequestReply<BankInterestRequest, BankInterestReply> req = (RequestReply<BankInterestRequest, BankInterestReply>)requestReply;
@@ -103,7 +104,7 @@ public class LoanBrokerFrame extends JFrame {
                         loanClientGateWay.send(new RequestReply<>(rr.getLoanRequest(), new LoanReply(req.getReply().getInterest(), req.getReply().getQuoteId())));
                     }
                 }
-            }, "bankClientReceive", "bankClientSend", BankInterestRequest.class, BankInterestReply.class);
+            }, 1);
         } catch (JMSException | NamingException e) {
             e.printStackTrace();
         }

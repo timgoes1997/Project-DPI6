@@ -18,5 +18,6 @@
     <orderEntry type="library" name="Maven: org.apache.activemq:activemq-all:5.15.3" level="project" />
     <orderEntry type="library" name="Maven: com.owlike:genson:1.4" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.2" level="project" />
+    <orderEntry type="library" name="Maven: net.sourceforge.jeval:jeval:0.9.4" level="project" />
   </component>
 </module>
