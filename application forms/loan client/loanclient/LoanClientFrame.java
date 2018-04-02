@@ -5,11 +5,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Properties;
 
 import javax.jms.*;
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -22,9 +19,9 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import messaging.requestreply.RequestReply;
+import model.gateways.AppGateway;
 import model.interfaces.ClientInterface;
 import model.loan.*;
-import org.apache.activemq.ActiveMQConnectionFactory;
 
 public class LoanClientFrame extends JFrame {
 
@@ -41,7 +38,7 @@ public class LoanClientFrame extends JFrame {
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
 	private JTextField tfTime;
-	private LoanBrokerAppGateway gateway;
+	private AppGateway gateway;
 
 	/**
 	 * Create the frame.
@@ -113,9 +110,9 @@ public class LoanClientFrame extends JFrame {
 		tfTime.setColumns(10);
 
 		try {
-			gateway = new LoanBrokerAppGateway(new ClientInterface() {
+			gateway = new AppGateway(new ClientInterface() {
                 @Override
-                public void next(RequestReply requestReply) {
+                public void receivedAction(RequestReply requestReply) {
                     add(requestReply);
                 }
             }, "loanClientSend", "loanClientReceive", LoanRequest.class, LoanReply.class);

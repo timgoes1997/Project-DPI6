@@ -23,6 +23,8 @@ import javax.swing.border.EmptyBorder;
 
 import model.bank.*;
 import messaging.requestreply.RequestReply;
+import model.gateways.AppGateway;
+import model.interfaces.ClientInterface;
 import model.loan.LoanRequest;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
@@ -35,7 +37,8 @@ public class JMSBankFrame extends JFrame {
 	private JPanel contentPane;
 	private JTextField tfReply;
 	private DefaultListModel<RequestReply<BankInterestRequest, BankInterestReply>> listModel = new DefaultListModel<RequestReply<BankInterestRequest, BankInterestReply>>();
-	
+	private AppGateway<BankInterestRequest, BankInterestReply> bankClientGateWay;
+
 	/**
 	 * Launch the application.
 	 */
@@ -108,7 +111,11 @@ public class JMSBankFrame extends JFrame {
 				if (rr!= null && reply != null){
 					rr.setReply(reply);
 	                list.repaint();
-	                sendRequestReply(rr);
+					try {
+						bankClientGateWay.send(rr);
+					} catch (JMSException e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
@@ -118,100 +125,15 @@ public class JMSBankFrame extends JFrame {
 		gbc_btnSendReply.gridy = 1;
 		contentPane.add(btnSendReply, gbc_btnSendReply);
 
-        setupLoanReceiver();
-	}
-
-	private void setupLoanReceiver() {
-		Connection connection; // to connect to the JMS
-		Session session; // session for creating consumers
-
-		Destination receiveDestination; //reference to a queue/topic destination
-		MessageConsumer consumer; // for receiving messages
-
 		try {
-			Properties props = new Properties();
-			props.setProperty(Context.INITIAL_CONTEXT_FACTORY, "org.apache.activemq.jndi.ActiveMQInitialContextFactory");
-			props.setProperty(Context.PROVIDER_URL, "tcp://localhost:61616");
-
-			// connect to the Destination called “myFirstChannel”
-			// queue or topic: “queue.myFirstDestination” or “topic.myFirstDestination”
-            props.put(("queue.bankInterestDestination"), "bankInterestDestination");
-
-			Context jndiContext = new InitialContext(props);
-			ActiveMQConnectionFactory connectionFactory = (ActiveMQConnectionFactory) jndiContext
-					.lookup("ConnectionFactory");
-			connectionFactory.setTrustAllPackages(true);
-			connection = connectionFactory.createConnection();
-			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-
-			// connect to the receiver destination
-			receiveDestination = (Destination) jndiContext.lookup("bankInterestDestination");
-			consumer = session.createConsumer(receiveDestination);
-
-			connection.start(); // this is needed to start receiving messages
-
-		} catch (NamingException | JMSException e) {
-			e.printStackTrace();
-			return;
-		}
-
-		try {
-			consumer.setMessageListener(new MessageListener() {
-
+			bankClientGateWay = new AppGateway<BankInterestRequest, BankInterestReply>(new ClientInterface() {
 				@Override
-				public void onMessage(Message msg) {
-					System.out.println("received message: " + msg);
-					ObjectMessage objectMessage = (ObjectMessage) msg;
-					try {
-                        BankInterestRequest req = (BankInterestRequest) objectMessage.getObject();
-                        RequestReply<BankInterestRequest, BankInterestReply> rr = new RequestReply<>(req, null);
-                        listModel.addElement(rr);
-					} catch (JMSException e) {
-						e.printStackTrace();
-					}
+				public void receivedAction(RequestReply requestReply) throws JMSException {
+					listModel.addElement(requestReply);
 				}
-			});
-		} catch (JMSException e) {
+			}, "bankClientSend", "bankClientReceive", BankInterestRequest.class, BankInterestReply.class);
+		} catch (JMSException | NamingException e) {
 			e.printStackTrace();
 		}
 	}
-
-    private void sendRequestReply(RequestReply<BankInterestRequest, BankInterestReply> request) {
-        Connection connection; // to connect to the ActiveMQ
-        Session session; // session for creating messages, producers and
-
-        Destination sendDestination; // reference to a queue/topic destination
-        MessageProducer producer; // for sending messages
-
-        try {
-            Properties props = new Properties();
-            props.setProperty(Context.INITIAL_CONTEXT_FACTORY, "org.apache.activemq.jndi.ActiveMQInitialContextFactory");
-            props.setProperty(Context.PROVIDER_URL, "tcp://localhost:61616");
-
-            // connect to the Destination called “myFirstChannel”
-            // queue or topic: “queue.myFirstDestination” or “topic.myFirstDestination”
-            props.put(("queue.bankReply"), "bankReply");
-
-            Context jndiContext = new InitialContext(props);
-            ActiveMQConnectionFactory connectionFactory = (ActiveMQConnectionFactory) jndiContext
-                    .lookup("ConnectionFactory");
-            connectionFactory.setTrustAllPackages(true);
-            connection = connectionFactory.createConnection();
-            session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-
-            // connect to the sender destination
-            sendDestination = (Destination) jndiContext.lookup("bankReply");
-            producer = session.createProducer(sendDestination);
-
-            //String body = "Hello, this is my first message!"; //or serialize an object!
-            // create a text message
-            Message msg = session.createObjectMessage(request);
-            // send the message
-            producer.send(msg);
-
-        } catch (NamingException | JMSException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

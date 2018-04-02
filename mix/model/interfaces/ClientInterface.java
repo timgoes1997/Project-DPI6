@@ -2,6 +2,8 @@ package model.interfaces;
 
 import messaging.requestreply.RequestReply;
 
+import javax.jms.JMSException;
+
 public interface ClientInterface {
-    void next(RequestReply requestReply);
+    void receivedAction(RequestReply requestReply) throws JMSException;
 }

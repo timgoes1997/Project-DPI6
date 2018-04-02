@@ -1,4 +1,4 @@
-package loanclient;
+package model.gateways;
 
 import com.google.gson.reflect.TypeToken;
 import jdk.nashorn.internal.ir.RuntimeNode;
@@ -16,7 +16,7 @@ import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 import javax.naming.NamingException;
 
-public class LoanBrokerAppGateway<REQUEST, REPLY> {
+public class AppGateway<REQUEST, REPLY> {
     private MessageSenderGateway sender;
     private MessageReceiverGateway receiverGateway;
     private Serializer serializer;
@@ -25,7 +25,7 @@ public class LoanBrokerAppGateway<REQUEST, REPLY> {
     private final Class<REQUEST> requestClass;
     private final Class<REPLY> replyClass;
 
-    public LoanBrokerAppGateway(ClientInterface clientInterface, String senderChannel, String receiverChannel, Class<REQUEST> requestClass, Class<REPLY> replyClass) throws JMSException, NamingException {
+    public AppGateway(ClientInterface clientInterface, String senderChannel, String receiverChannel, Class<REQUEST> requestClass, Class<REPLY> replyClass) throws JMSException, NamingException {
         this.sender = new MessageSenderGateway(senderChannel);
         this.requestClass = requestClass;
         this.replyClass = replyClass;
@@ -52,7 +52,7 @@ public class LoanBrokerAppGateway<REQUEST, REPLY> {
 
     public void onReplyArrived(RequestReply rr) throws JMSException {
         if(rr != null) {
-            clientInterface.next(rr);
+            clientInterface.receivedAction(rr);
         }else{
             throw new JMSException("Received a message with a null value");
         }
