@@ -40,7 +40,7 @@ public class MessageSenderGateway {
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
             // connect to the sender destination
-            destination = (Destination) jndiContext.lookup("bankInterestDestination");
+            destination = (Destination) jndiContext.lookup(channelName);
             producer = session.createProducer(destination);
 
         } catch (NamingException | JMSException e) {

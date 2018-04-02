@@ -40,7 +40,7 @@ public class MessageReceiverGateway {
         session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
         // connect to the receiver destination
-        destination = (Destination) jndiContext.lookup("bankReply");
+        destination = (Destination) jndiContext.lookup(channelName);
         consumer = session.createConsumer(destination);
 
         connection.start(); // this is needed to start receiving messages
