@@ -35,10 +35,8 @@ public class AppGateway<REQUEST, REPLY> {
         this.receiverGateway.setListener(new MessageListener() {
             @Override
             public void onMessage(Message message) {
-                TextMessage msg = (TextMessage) message;
-
                 try {
-                    onReplyArrived(serializer.requestReplyFromString(msg.getText()));
+                    onReplyArrived(serializer.requestReplyFromString(((TextMessage) message).getText()));
                 } catch (JMSException e) {
                     e.printStackTrace();
                 }

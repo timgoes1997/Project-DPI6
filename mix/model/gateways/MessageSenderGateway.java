@@ -49,13 +49,11 @@ public class MessageSenderGateway {
     }
 
     public Message createTextMessage(String body) throws JMSException {
-        TextMessage msg = session.createTextMessage(body);
-        return msg;
+        return session.createTextMessage(body);
     }
 
     public Message createObjectMessage(Serializable object) throws JMSException {
-        Message msg = session.createObjectMessage(object);
-        return msg;
+        return session.createObjectMessage(object);
     }
 
     public void send(Message msg) {
